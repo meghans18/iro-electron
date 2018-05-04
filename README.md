@@ -37,25 +37,25 @@ win.webContents.send('message');
 Another feature used in this project is a timer for inactivity. This timer switches between the two windows when no user is interacting with it.
 ```
 function idleTimer() {
-	#create variables for the timers
+#create variables for the timers
     var t, open, insideRotate;
-	#call resetTimer for anything that counts as activity from the user. for example:
+#call resetTimer for anything that counts as activity from the user. for example:
 	window.onload = resetTimer;
     window.onclick = resetTimer;
     countriesLayer.on('click', function() {
 		resetTimer();
-    }); #checks for clicks on map tiles
+    });
 
-	#create a function that handles the rotation between windows and
-	#any other actions to take during inactivity
+#create a function that handles the rotation between windows and
+#any other actions to take during inactivity
     function openChild() {
-		#first do any actions that need to happen right after inactivity timer goes off
-		#for example, hide html elements or pause a video (more actions in actual code)
+	#first do any actions that need to happen right after inactivity timer goes off
+	#for example, hide html elements or pause a video (more actions in actual code)
 		$('#htmlID').hide();
 		video.pause();
-		#this timer then sends the message to open the child window
+	#this timer then sends the message to open the child window
         ipcRenderer.send('reset');
-        #rotate is the main timer part for the openChild function
+	#rotate is the main timer part for the openChild function
 		var rotate = function(){
 			//the looper function creates a popup loop on the map based on information in the 10m.js file
             var loop = countriesArray.length;
@@ -79,17 +79,17 @@ function idleTimer() {
             looper();
         };
         rotate();
-		#the open timer opens the map every 7.5 minutes in this case
-		#this is because the video will be playing for 5 minutes, then the map will display for 2.5 minutes.
-		#the video automatically closes itself in the video.html file
+	#the open timer opens the map every 7.5 minutes in this case
+	#this is because the video will be playing for 5 minutes, then the map will display for 2.5 minutes.
+	#the video automatically closes itself in the video.html file
         open = setInterval(function() {
             ipcRenderer.send('reset');
-        }, 450000); #set this for length of video + amount of break time you want in between playing the video
+        }, 450000);
         map.setView([20, 11.5], 3);
     }
 
-	#the resetTimer function is called whenever there is activity. it clears all the other timers so they stop going
-	#the t timer runs the openChild (rotation) function whenever there hasn't been activity for 2.5 minutes
+#the resetTimer function is called whenever there is activity. it clears all the other timers so they stop going
+#the t timer runs the openChild (rotation) function whenever there hasn't been activity for 2.5 minutes
     function resetTimer() {
         clearTimeout(insideRotate);
         clearInterval(open);
