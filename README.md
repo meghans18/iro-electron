@@ -33,7 +33,7 @@ Messages sent by a window must match the message in main.js for each specific ac
 To send a message from main.js to a browser window:
 ```
 win.webContents.send('message');
-``
+```
 Another feature used in this project is a timer for inactivity. This timer switches between the two windows when no user is interacting with it.
 ```
 function idleTimer() {
